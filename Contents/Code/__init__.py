@@ -755,6 +755,7 @@ class XBMCNFO(PlexAgent):
                             except:
                                 pass
                             if aname:
+                                aname = aname.lower()
                                 aimagefilename = aname.replace(' ', '_') + '.jpg'
                                 athumbpath = preferences['athumbpath'].rstrip ('/')
                                 if not athumbpath == '':
@@ -776,16 +777,11 @@ class XBMCNFO(PlexAgent):
                                             log.debug ('failed setting ' + athumbloc + ' actor photo: ' + aimagepath)
                                             aimagepath = None
                                     if athumbloc == 'global':
-                                        aimagepath = athumbpath + '/' + aimagefilename
+                                        aimagepath = athumbpath + '/' + aimagefilename + '?raw=true'
                                         scheme, netloc, path, qs, anchor = urlparse.urlsplit(aimagepath)
                                         path = urllib.quote(path.encode('utf-8'))
                                         path = urllib.quote(path, '/%')
                                         qs = urllib.quote_plus(qs, ':&=')
-                                        aimagepathurl = urlparse.urlunsplit((scheme, netloc, path, qs, anchor))
-                                        response = urllib.urlopen(aimagepathurl).code
-                                        if not response == 200:
-                                            log.debug ('failed setting ' + athumbloc + ' actor photo: ' + aimagepath)
-                                            aimagepath = None
                                     if aimagepath:
                                         newrole.photo = aimagepath
                                         log.debug ('success setting ' + athumbloc + ' actor photo: ' + aimagepath)
